@@ -6,6 +6,10 @@
 ##############
 
 ### Instalar o fbalpha2012 e ++++
+# url_retroarch=""
+# squash_retroarch=$(basename "$url_retroarch")
+# work_retroarch=/userdata/system/configs/retroarch
+
 
 ##############
 
