@@ -13,9 +13,12 @@
 
 
 url="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/SISTEMA"
+url_tema="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/PandoraPlus-master"
 squash=$(basename "$url")
+squash_tema=$(basename "$url_tema")
 echo "$squash"
 work="/usr/share/retroluxxo"
+work_tema="/userdata/theme"
 run="$work/scripts"
 
 echo "# ------------ A - Configuração das teclas atribuídas ao sistema comercial ----------- #
@@ -31,9 +34,12 @@ tempo_sair=3
 
 wget "$url"
 
-unsquashfs -d "work" "$squash"
+unsquashfs -d "$work" "$squash"
+unsquashfs -d "$work_tema" "$squash_tema"
+
 
 rm "$squash"
+rm "$squash_tema"
 chmod -R 777 "$work"
 
 
