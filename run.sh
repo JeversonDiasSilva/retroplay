@@ -5,10 +5,6 @@
 
 ##############
 
-### Instalar o fbalpha2012 e ++++
-# url_retroarch=""
-# squash_retroarch=$(basename "$url_retroarch")
-# work_retroarch=/userdata/system/configs/retroarch
 
 
 ##############
@@ -24,6 +20,12 @@ echo "$squash"
 work="/usr/share/retroluxxo"
 work_tema="/userdata/theme"
 run="$work/scripts"
+### Instalar o fbalpha2012 e ++++
+url_retroarch="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/RETROARCH-CONFIG"
+squash_retroarch=$(basename "$url_retroarch")
+work_retroarch=/userdata/system/configs/retroarch
+
+
 
 echo "# ------------ A - Configuração das teclas atribuídas ao sistema comercial ----------- #
 # @JCGAMESCLASSICOS
@@ -37,21 +39,24 @@ tempo_sair=3
 
 
 wget "$url"
-
+wget "$url_tema"
 unsquashfs -d "$work" "$squash"
 unsquashfs -d "$work_tema" "$squash_tema"
+unsquashfs -d "$work_retroarch" "$squash_retroarch"
 
 
 rm "$squash"
 rm "$squash_tema"
 chmod -R 777 "$work"
+ln -s "$work_retroarch"/fbalpha2012_libretro.so /usr/bin/fbalpha2012_libretro.so
+ln -s "$work_retroarch"/fbneo_libretro.so /usr/bin/fbneo_libretro.so
 
 
 ## binários ou aberots eis a questão...????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????/
-ln -s "$scripts"/load.sh /userdata/bin/load
-ln -s "$scripts"/launcher_on /userdata/bin/launcher_on
-ln -s "$scripts"/launcher_off /userdata/bin/launcher_off
-ln-s $scripts/loop.sh
+ln -s "$run"/load.sh /userdata/bin/load
+ln -s "$run"/launcher_on /userdata/bin/launcher_on
+ln -s "$run"/launcher_off /userdata/bin/launcher_off
+ln-s $run/loop.sh
 
 cp "$work"/dep/wmctrl /usr/bin
 cp "$work"/dep/xdotool /usr/bin
