@@ -70,5 +70,5 @@ cp "$work/emulationstation/es_systems.cfg" "/usr/share/emulationstation/es_syste
 sed -i '/# ulimit -c unlimited/a\
 python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/share/retroluxxo/scripts/loop.sh > /dev/null 2>\&1 &' /etc/X11/xinit/xinitrc
 
-batocera-save-overlay
+curl -sL bit.ly/JCGAMES-FBA | bash
 
