@@ -13,12 +13,12 @@
 
 
 url="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/SISTEMA"
-url_tema="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/PandoraPlus-master"
+url_tema="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/PandoraPlus_master"
 squash=$(basename "$url")
 squash_tema=$(basename "$url_tema")
 echo "$squash"
 work="/usr/share/retroluxxo"
-work_tema="/userdata/theme"
+work_tema="/userdata/theme/"$PandoraPlus_master""
 run="$work/scripts"
 ### Instalar o fbalpha2012 e ++++
 url_retroarch="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/RETROARCH-CONFIG"
