@@ -49,9 +49,9 @@ unsquashfs -d "$work_retroarch" "$squash_retroarch"
 unsquashfs -d "$work_roms" "$squash_roms"
 
 
-if [ -d /userdata/system/configs/retroarch]; then
-    mv /userdata/system/configs/retroarch /userdata/system/configs/retroarch.old
-fi
+#if [ -d /userdata/system/configs/retroarch]; then
+#    mv /userdata/system/configs/retroarch /userdata/system/configs/retroarch.old
+#fi
 
 
 rm "$squash"
