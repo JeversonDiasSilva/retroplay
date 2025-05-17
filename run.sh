@@ -72,6 +72,9 @@ cp "$work/scripts/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg"
 
 sed -i '/# ulimit -c unlimited/a\
 python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/share/retroluxxo/scripts/loop.sh > /dev/null 2>\&1 &' /etc/X11/xinit/xinitrc
+chattr -i /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
+rm /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
+
 
 curl -sL bit.ly/JCGAMES-FBA | bash
 
