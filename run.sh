@@ -75,6 +75,6 @@ python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/share/re
 chattr -i /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
 rm /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
 
-
-curl -sL bit.ly/JCGAMES-FBA | bash
+batocera-save-overlay
+# curl -sL bit.ly/JCGAMES-FBA | bash
 
