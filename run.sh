@@ -13,12 +13,12 @@
 
 
 url="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/SISTEMA"
-url_tema="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/PandoraPlus_master"
+url_tema="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/PandoraPlus-master"
 squash=$(basename "$url")
 squash_tema=$(basename "$url_tema")
 echo "$squash"
 work="/usr/share/retroluxxo"
-work_tema="/userdata/theme/"$PandoraPlus_master""
+work_tema="/userdata/theme/"PandoraPlus-master""
 run="$work/scripts"
 ### Instalar o fbalpha2012 e ++++
 url_retroarch="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/RETROARCH-CONFIG"
@@ -60,8 +60,8 @@ rm "$squash_tema"
 rm $squash_roms
 rm "$squash_retroarch"
 chmod -R 777 "$work"
-ln -s "$work_retroarch"/cores/fbalpha2012_libretro.so /usr/bin/fbalpha2012_libretro.so
-ln -s "$work_retroarch"/cores/fbneo_libretro.so /usr/bin/fbneo_libretro.so
+ln -s "$work_retroarch"/cores/fbalpha2012_libretro.so /usr/lib/libretro/fbalpha2012_libretro.so
+ln -s "$work_retroarch"/cores/fbneo_libretro.so /usr/lib/libretro/fbneo_libretro.so
 
 
 ## binários ou aberots eis a questão...????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????/
