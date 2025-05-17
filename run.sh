@@ -66,7 +66,7 @@ cp "$work"/dep/xdotool /usr/bin
 
 mv "/usr/share/emulationstation/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg.bkp"
 mv "/userdata/system/configs/emulationstation/es_systems.cfg" "/userdata/system/configs/emulationstation/es_systems.cfg.bkp"
-cp "$work/emulationstation/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg"
+cp "$work/scripts/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg"
 
 
 
