@@ -27,7 +27,7 @@ work_retroarch=/userdata/system/configs/retroarch
 
 url_roms="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/FBA-ROMS"
 work_roms=/userdata/roms/fba_libretro
-squash-roms=$(basename "$url_roms")
+squash_roms=$(basename "$url_roms")
 
 
 echo "# ------------ A - Configuração das teclas atribuídas ao sistema comercial ----------- #
