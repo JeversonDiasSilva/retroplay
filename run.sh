@@ -25,11 +25,14 @@ url_retroarch="https://github.com/JeversonDiasSilva/retroplay/releases/download/
 squash_retroarch=$(basename "$url_retroarch")
 work_retroarch=/userdata/system/configs/retroarch
 
+url_roms="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/FBA-ROMS"
+work_roms=/userdata/roms/fba_libretro
+squash-roms=$(basename "$url_roms")
 
 
 echo "# ------------ A - Configuração das teclas atribuídas ao sistema comercial ----------- #
 # @JCGAMESCLASSICOS
-# hotkey.conf
+# GENERIC XBOX 360 
 botao_coin=9
 botao_sair=7
 tempo_sair=3
@@ -39,17 +42,22 @@ tempo_sair=3
 
 wget "$url"
 wget "$url_tema"
+wget "$url_roms"
 unsquashfs -d "$work" "$squash"
 unsquashfs -d "$work_tema" "$squash_tema"
 unsquashfs -d "$work_retroarch" "$squash_retroarch"
+unsquashfs -d "$work_roms" "$squash_roms"
 
 
 if [ -d /userdata/system/configs/retroarch]; then
     mv /userdata/system/configs/retroarch /userdata/system/configs/retroarch.old
 fi
 
+
 rm "$squash"
 rm "$squash_tema"
+rm $squash_roms
+rm "$squash_retroarch"
 chmod -R 777 "$work"
 ln -s "$work_retroarch"/fbalpha2012_libretro.so /usr/bin/fbalpha2012_libretro.so
 ln -s "$work_retroarch"/fbneo_libretro.so /usr/bin/fbneo_libretro.so
