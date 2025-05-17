@@ -5,7 +5,9 @@
 
 ##############
 
-
+read -p "INSIRA A CHAVE DE INSTALAÇÃO :" chave
+sleep 
+echo "$chave"
 
 ##############
 
