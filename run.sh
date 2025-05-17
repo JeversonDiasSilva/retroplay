@@ -35,8 +35,9 @@ botao_sair=7
 tempo_sair=3
 " | cat - /userdata/system/batocera.conf > /tmp/batocera.tmp && mv /tmp/batocera.tmp /userdata/system/batocera.conf
 
-
-
+if [ -d /userdata/system/configs/retroarch]; then
+    mv /userdata/system/configs/retroarch /userdata/system/configs/retroarch.old
+fi
 
 wget "$url"
 wget "$url_tema"
