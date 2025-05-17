@@ -18,7 +18,7 @@ squash=$(basename "$url")
 squash_tema=$(basename "$url_tema")
 echo "$squash"
 work="/usr/share/retroluxxo"
-work_tema="/userdata/theme/"PandoraPlus-master""
+work_tema="/userdata/themes/"PandoraPlus-master""
 run="$work/scripts"
 ### Instalar o fbalpha2012 e ++++
 url_retroarch="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/RETROARCH-CONFIG"
