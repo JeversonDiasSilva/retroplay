@@ -42,7 +42,7 @@ tempo_sair=3
 
 wget "$url"
 wget "$url_tema"
-wget "$usr_retroarch"
+wget "$url_retroarch"
 wget "$url_roms"
 unsquashfs -d "$work" "$squash"
 unsquashfs -d "$work_tema" "$squash_tema"
