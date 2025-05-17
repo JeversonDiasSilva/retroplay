@@ -25,10 +25,10 @@ url_retroarch="https://github.com/JeversonDiasSilva/retroplay/releases/download/
 squash_retroarch=$(basename "$url_retroarch")
 work_retroarch=/userdata/system/configs/retroarch
 
-url_roms="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/FBA-ROMS"
-work_roms=/userdata/roms/fba_libretro
-squash_roms=$(basename "$url_roms")
 
+url_roms="https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/FBA-ROMS"
+squash_roms=$(basename "$url_roms")
+work_roms="/userdata/roms/fba_libretro"
 
 echo "# ------------ A - Configuração das teclas atribuídas ao sistema comercial ----------- #
 # @JCGAMESCLASSICOS
