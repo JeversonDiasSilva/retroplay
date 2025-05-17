@@ -61,7 +61,7 @@ rm "$squash_tema"
 rm $squash_roms
 rm "$squash_retroarch"
 chmod -R 777 "$work"
-ln -s "$work_core"/fbalpha2012_libretro.so "$work-libretro"/fbalpha2012_libretro.so
+ln -s "$work_core"/fbalpha2012_libretro.so "$work_libretro"/fbalpha2012_libretro.so
 ln -s "$work_core"/fbneo_libretro.so "$work_libretro"/fbneo_libretro.so
 
 
