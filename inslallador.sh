@@ -21,15 +21,30 @@ echo -e "${ROXO}${BOLD}  V40 E V41 - JEVERTON DIAS DA SILVA - 06 DE MAIO DE 2025
 echo -e "${ROXO}${BOLD}╚══════════════════════════════════════════════════════════╝${RESET}"
 sleep 2
 
-# Chave de instalação
-echo -ne "${AMARELO}${BOLD}INSIRA A CHAVE DE INSTALAÇÃO:${RESET} "
-IFS= read -r chave < /dev/tty
-sleep 1
-echo -e "${VERDE}✔ Chave inserida com sucesso.${RESET}"
-sleep 1
+# Chave de instalação 
+# Se a chave estiver no documento, fazer a instalação...
+# Se a chave não estiver no documento, contato suporte ... tudo formatado ...
+: << "END"
+# URL do arquivo db.txt no GitHub (raw)
+URL="https://raw.githubusercontent.com/JeversonDiasSilva/data/main/db.txt"
+
+# Lê o conteúdo do arquivo e armazena em uma variável
+LISTA=$(curl -s "$URL")
+
+# Solicita a entrada do usuário
+read -p "Digite a chave: " CHAVE
+
+# Verifica se a chave existe na lista
+if echo "$LISTA" | grep -q "^$CHAVE$"; then
+    echo "OKOK"
+else
+    echo -e "PROCURE SUPORTE\nRetrô LuXXo  WHATS (41) 998205080"
+fi
+
+END
 
 # Configuração no batocera.conf
-echo "${AZUL}✔ Atualizando configuração do sistema...${RESET}"
+echo -e "${AZUL}✔ Atualizando configuração do sistema...${RESET}"
 echo "# ------------Configuração das teclas atribuídas ao sistema comercial ----------- #
 # @JCGAMESCLASSICOS
 # GENERIC XBOX 360 
@@ -37,6 +52,19 @@ botao_coin=9
 botao_sair=7
 tempo_sair=3
 " | cat - /userdata/system/batocera.conf > /tmp/batocera.tmp && mv /tmp/batocera.tmp /userdata/system/batocera.conf
+
+# Configuração do sistema  inicialização
+echo "<?xml version="1.0"?>
+<config>
+	<bool name="StartupOnGameList" value="true" />
+	<string name="ShowFlags" value="auto" />
+	<string name="StartupSystem" value="fba_libretro" />
+	<string name="ThemeSet" value="PandoraPlus-master" />
+</config> " > "/userdata/system/configs/emulationstation/es_settings.cfg"
+
+
+
+
 
 # Diretórios de destino
 mkdir -p "/userdata/system/.dev"
@@ -96,13 +124,13 @@ cp "$work/dep/wmctrl" /usr/bin
 cp "$work/dep/xdotool" /usr/bin
 
 # Backup e substituição do es_systems.cfg
-mv "/usr/share/emulationstation/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg.bkp"
-mv "/userdata/system/configs/emulationstation/es_systems.cfg" "/userdata/system/configs/emulationstation/es_systems.cfg.bkp"
-cp "$work/scripts/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg"
+mv "/usr/share/emulationstation/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg.bkp" > /dev/null 2>&1 
+mv "/userdata/system/configs/emulationstation/es_systems.cfg" "/userdata/system/configs/emulationstation/es_systems.cfg.bkp" > /dev/null 2>&1 
+cp "$work/scripts/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg" > /dev/null 2>&1
 
 # Adiciona scripts ao xinitrc
 sed -i '/# ulimit -c unlimited/a\
-python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/binloop > /dev/null 2>\&1 &' /etc/X11/xinit/xinitrc
+python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/bin/loop > /dev/null 2>\&1 &' /etc/X11/xinit/xinitrc
 
 # Remove configuração antiga
 chattr -i /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
@@ -113,4 +141,6 @@ echo -e "${AZUL}✔ Salvando alterações no sistema (overlay)...${RESET}"
 batocera-save-overlay
 
 /etc/X11/xinit/xinitrc
+Launcher_on
+
 echo -e "${VERDE}${BOLD}✔ Instalação concluída com sucesso!${RESET}"
