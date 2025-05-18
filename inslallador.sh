@@ -86,7 +86,7 @@ instalar_pacote "Pacote de ROMs" "https://github.com/JeversonDiasSilva/retroplay
 chmod -R 777 "$work"
 ln -sf "$work_core/fbalpha2012_libretro.so" "$work_libretro/fbalpha2012_libretro.so"
 ln -sf "$work_core/fbneo_libretro.so" "$work_libretro/fbneo_libretro.so"
-ln -sf "$work/scripts/load.sh" /userdata/bin/load
+ln -sf "$work/scripts/load.sh" /usr/bin/load
 ln -sf "$work/scripts/Launcher_on.sh" /usr/bin/Launcher_on
 ln -sf "$work/scripts/Launcher_off.sh" /usr/bin/Launcher_off
 ln -sf "$work/scripts/loop.sh" /usr/bin/loop
