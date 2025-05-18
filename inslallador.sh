@@ -38,6 +38,9 @@ tempo_sair=3
 " | cat - /userdata/system/batocera.conf > /tmp/batocera.tmp && mv /tmp/batocera.tmp /userdata/system/batocera.conf
 
 # Diretórios de destino
+mkdir -p "/userdata/system/.dev"
+echo "" > "/userdata/system/.dev"/count.txt
+echo "" > "/userdata/system/.dev"/relogio.txt
 work="/usr/share/retroluxxo"
 work_tema="/userdata/themes/PandoraPlus-master"
 work_retroarch="/userdata/system/configs/retroarch"
@@ -83,8 +86,8 @@ chmod -R 777 "$work"
 ln -sf "$work_core/fbalpha2012_libretro.so" "$work_libretro/fbalpha2012_libretro.so"
 ln -sf "$work_core/fbneo_libretro.so" "$work_libretro/fbneo_libretro.so"
 ln -sf "$work/scripts/load.sh" /userdata/bin/load
-ln -sf "$work/scripts/launcher_on" /userdata/bin/launcher_on
-ln -sf "$work/scripts/launcher_off" /userdata/bin/launcher_off
+ln -sf "$work/scripts/Launcher_on.sh" /userdata/bin/Launcher_on
+ln -sf "$work/scripts/Launcher_off.sh" /userdata/bin/Launcher_off
 ln -sf "$work/scripts/loop.sh" /userdata/bin/loop
 
 # Copiando binários auxiliares
@@ -98,7 +101,7 @@ cp "$work/scripts/es_systems.cfg" "/usr/share/emulationstation/es_systems.cfg"
 
 # Adiciona scripts ao xinitrc
 sed -i '/# ulimit -c unlimited/a\
-python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/share/retroluxxo/scripts/loop.sh > /dev/null 2>\&1 &' /etc/X11/xinit/xinitrc
+python3 /usr/share/retroluxxo/scripts/coin.py > /dev/null 2>\&1 &\n/usr/binloop > /dev/null 2>\&1 &' /etc/X11/xinit/xinitrc
 
 # Remove configuração antiga
 chattr -i /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
