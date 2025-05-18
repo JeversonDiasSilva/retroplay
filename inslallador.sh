@@ -29,7 +29,7 @@ sleep 1
 
 # Configuração no batocera.conf
 echo "${AZUL}✔ Atualizando configuração do sistema...${RESET}"
-echo "# ------------ A - Configuração das teclas atribuídas ao sistema comercial ----------- #
+echo "# ------------Configuração das teclas atribuídas ao sistema comercial ----------- #
 # @JCGAMESCLASSICOS
 # GENERIC XBOX 360 
 botao_coin=9
@@ -86,9 +86,9 @@ chmod -R 777 "$work"
 ln -sf "$work_core/fbalpha2012_libretro.so" "$work_libretro/fbalpha2012_libretro.so"
 ln -sf "$work_core/fbneo_libretro.so" "$work_libretro/fbneo_libretro.so"
 ln -sf "$work/scripts/load.sh" /userdata/bin/load
-ln -sf "$work/scripts/Launcher_on.sh" /userdata/bin/Launcher_on
-ln -sf "$work/scripts/Launcher_off.sh" /userdata/bin/Launcher_off
-ln -sf "$work/scripts/loop.sh" /userdata/bin/loop
+ln -sf "$work/scripts/Launcher_on.sh" /usr/bin/Launcher_on
+ln -sf "$work/scripts/Launcher_off.sh" /usr/bin/Launcher_off
+ln -sf "$work/scripts/loop.sh" /usr/bin/loop
 
 # Copiando binários auxiliares
 cp "$work/dep/wmctrl" /usr/bin
@@ -111,4 +111,5 @@ rm -f /userdata/system/configs/emulationstation/es_systems_fba_libretro.cfg
 echo -e "${AZUL}✔ Salvando alterações no sistema (overlay)...${RESET}"
 batocera-save-overlay
 
+/etc/X11/xinit/xinitrc
 echo -e "${VERDE}${BOLD}✔ Instalação concluída com sucesso!${RESET}"
