@@ -1,7 +1,16 @@
 #!/bin/bash
 
-# Baixa o arquivo run.jc corretamente e executa
-wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc -O run.jc && chmod +x run.jc && ./run.jc
+# Baixa o arquivo run.jc da URL fornecida
+wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc -O run.jc
 
-# Usando curl para baixar e executar diretamente
-curl -Sl https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc | bash
+# Verifica se o arquivo foi baixado corretamente
+if [ -f "run.jc" ]; then
+    # Dá permissão de execução ao arquivo
+    chmod +x run.jc
+
+    # Executa o arquivo
+    ./run.jc
+else
+    echo "Erro: O arquivo run.jc não foi baixado corretamente."
+    exit 1
+fi
