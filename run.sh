@@ -16,7 +16,7 @@ clear
 
 ./xdotool type "./run.jc"
 ./xdotool key ctrl+l
-sleep 2.5
+
 # Remover xdotool se ele existir
 if [ -f xdotool ]; then
     rm xdotool
@@ -28,3 +28,6 @@ if [ -f xdotool ]; then
 else
     echo "Arquivo xdotool não encontrado para remoção."
 fi
+
+: << "END"
+END
