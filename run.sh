@@ -9,7 +9,6 @@ chmod +x run.jc
 
 # Passo 3: Exibir a mensagem de instruções com formatação
 echo -e "\e[1;31mPRESSIONE ENTER PARA PROSSEGUIR COM A INSTALAÇÃO\e[0m"  # Vermelho, caixa alta, em negrito
-clear
-clear
+sleep 5
 xdotool type "./run.jc"
-
+xdotool key ctrl+l
