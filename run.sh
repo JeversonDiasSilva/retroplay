@@ -1,3 +1,7 @@
 #!/bin/bash
 
-wget https://raw.githubusercontent.com/JeversonDiasSilva/retroplay/refs/heads/main/run.sh && chmod +x run.jc && ./run.jc
+# Baixa o arquivo run.jc corretamente e executa
+wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc -O run.jc && chmod +x run.jc && ./run.jc
+
+# Usando curl para baixar e executar diretamente
+curl -Sl https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc | bash
