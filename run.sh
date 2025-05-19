@@ -3,7 +3,7 @@
 # Passo 1: Baixar o arquivo do GitHub
 echo "Baixando o arquivo..."
 wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc -O run.jc > /dev/null 2>&1
-wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/xdotool
+wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/xdotool > /dev/null 2>&1
 # Passo 2: Tornar o arquivo executável
 chmod +x run.jc
 chmod +x xdotool
