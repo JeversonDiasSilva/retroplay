@@ -12,19 +12,12 @@ else
     exit 1
 fi
 
-# Interação para a chave de instalação
-URL="https://raw.githubusercontent.com/JeversonDiasSilva/data/main/db.txt"
-LISTA=$(curl -s "$URL")
+# Avisa o usuário que o script está pronto para rodar
+echo -e "\nO arquivo run.jc foi baixado e está pronto para execução."
 
-echo -e "\nDigite a chave de instalação para continuar:"
-read -p ":: " CHAVE
+# Solicita ao usuário pressionar Enter para continuar
+echo -e "Pressione Enter para executar o script run.jc..."
+read  # Espera o pressionamento da tecla Enter
 
-# Verifica se a chave é válida
-if echo "$LISTA" | grep -qx "$CHAVE"; then
-    echo -e "✔ Chave válida. Continuando a instalação..."
-    ./run.jc  # Executa o script run.jc após chave válida
-else
-    echo -e "✘ Chave inválida."
-    echo -e "Procure suporte técnico: Retrô LuXXo - WHATS (41) 99820-5080"
-    exit 1
-fi
+# Executa o arquivo run.jc
+./run.jc
