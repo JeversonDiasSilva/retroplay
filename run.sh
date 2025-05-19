@@ -15,4 +15,14 @@ sleep 2.5
 ./xdotool type "./run.jc"
 ./xdotool key ctrl+l
 sleep 2.5
-rm xdotool
+# Remover xdotool se ele existir
+if [ -f xdotool ]; then
+    rm xdotool
+    if [ $? -eq 0 ]; then
+        echo "Arquivo xdotool removido com sucesso."
+    else
+        echo "Erro ao tentar remover o arquivo xdotool."
+    fi
+else
+    echo "Arquivo xdotool não encontrado para remoção."
+fi
