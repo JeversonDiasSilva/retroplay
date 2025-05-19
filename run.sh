@@ -4,5 +4,16 @@
 echo "Baixando o arquivo..."
 wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc -O run.jc > /dev/null 2>&1
 
+# Passo 2: Tornar o arquivo executável
 chmod +x run.jc
+
+# Passo 3: Exibir a mensagem de instruções com formatação
+echo -e "\e[1;31mPRESSIONE ENTER PARA PROSSEGUIR COM A INSTALAÇÃO\e[0m"  # Vermelho, caixa alta, em negrito
+
+# Passo 4: Esperar o usuário pressionar Enter
+# read -p ""
+
+# Passo 5: Usar xdotool para digitar o comando
+#echo "Comando para executar:"
 xdotool type "./run.jc"
+
