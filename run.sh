@@ -14,4 +14,4 @@ sleep 2.5
 
 ./xdotool type "./run.jc"
 ./xdotool key ctrl+l
-rm ./xdotool
+# rm ./xdotool
