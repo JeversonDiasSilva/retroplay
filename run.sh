@@ -12,8 +12,8 @@ sleep 3
 clear
 
 ./xdotool type "./run.jc"
-sleep 3
-xdotool key Return
+sleep 2
+./xdotool key Return
 
 # Remover xdotool se ele existir
 if [ -f xdotool ]; then
