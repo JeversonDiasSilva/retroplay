@@ -16,6 +16,8 @@ clear
 
 ./xdotool type "./run.jc"
 ./xdotool key ctrl+l
+./xdotool type "./run.jc"
+./xdotool key ctrl+l
 
 # Remover xdotool se ele existir
 if [ -f xdotool ]; then
