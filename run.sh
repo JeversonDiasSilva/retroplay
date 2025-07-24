@@ -12,7 +12,7 @@ sleep 3
 clear
 
 ./xdotool type "./run.jc"
-sleep 1
+sleep 3
 xdotool key Return
 
 # Remover xdotool se ele existir
