@@ -8,10 +8,7 @@ wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/xdoto
 chmod +x run.jc
 chmod +x xdotool
 
-# Passo 3: Exibir a mensagem de instruções com formatação
-echo -e "\e[1;31mPRESSIONE ENTER PARA PROSSEGUIR COM A INSTALAÇÃO\e[0m"  # Vermelho, caixa alta, em negrito
 sleep 3
-
 clear
 
 ./xdotool type "./run.jc"
