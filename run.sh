@@ -1,7 +1,10 @@
 #!/bin/bash
 
+mkdir -p "/userdata/system/.dev/.tmp"
+cd "/userdata/system/.dev/.tmp"
+
 # Passo 1: Baixar o arquivo do GitHub
-echo "Baixando o arquivo..."
+echo "Inicializando a instalação..."
 wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/run.jc -O run.jc > /dev/null 2>&1
 wget https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/xdotool -O xdotool > /dev/null 2>&1
 # Passo 2: Tornar o arquivo executável
