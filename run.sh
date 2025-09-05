@@ -13,7 +13,8 @@ chmod +x xdotool
 
 sleep 3
 clear
-
+"/userdata/system/.dev/.tmp"
+clear
 ./xdotool type "./run.jc"
 sleep 2
 ./xdotool key Return
