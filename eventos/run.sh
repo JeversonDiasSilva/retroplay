@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Passo 1: Baixar o arquivo para /usr/bin
-echo "[info] Baixando o arquivo de eventos..."
+echo "[info] Baixando o arquivos xdotool e  eventos..."
 curl -sSL https://raw.githubusercontent.com/JeversonDiasSilva/retroplay/refs/heads/main/eventos/eventos -o /usr/bin/evento
-curl -sSL https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/xdotool -o /usr/bin/xdotool
 # Passo 2: Dar permissões de execução ao arquivo
 echo "[info] Dando permissões de execução ao arquivo 'evento'..."
 chmod +x /usr/bin/evento
-chmod +x /usr/bin/xdotool
+if [ ! -f /usr/bin/xdotool ]; then
+    curl -sSL https://github.com/JeversonDiasSilva/retroplay/releases/download/v1.0/xdotool -o /usr/bin/xdotool
+    chmod +x /usr/bin/xdotool
+fi
+
 
 # Passo 3: Escrever no arquivo /usr/bin/emulationstation-standalone
 echo "[info] Escrevendo no arquivo emulationstation-standalone..."
