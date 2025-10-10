@@ -10,7 +10,7 @@ chmod +x /usr/bin/evento
 
 # Passo 3: Escrever no arquivo /usr/bin/emulationstation-standalone
 echo "[info] Escrevendo no arquivo emulationstation-standalone..."
-sed -i '/#escrever aqui/a \ \ \ \ ###################\n\n\ \ \ \ ### keyboard ###\n\ \ \ \ # TODO: xorg/wayland\n\ \ \ \ ###################' /usr/bin/emulationstation-standalone
+/etc/X11/xinit/xinitrc
 
 # Passo 4: Rodar batocera-save-overlay
 echo "[info] Rodando batocera-save-overlay..."
@@ -19,3 +19,4 @@ batocera-save-overlay
 # Passo 5: Rodar o script evento em segundo plano
 echo "[info] Rodando 'evento &'..."
 /usr/bin/evento &
+killall -9 pcmanfm xterm
