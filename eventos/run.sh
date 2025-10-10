@@ -18,5 +18,5 @@ batocera-save-overlay
 
 # Passo 5: Rodar o script evento em segundo plano
 echo "[info] Rodando 'evento &'..."
-/usr/bin/evento &
-killall -9 pcmanfm xterm
+startx
+killall -9 pcmanfm 
