@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""
+monitor_input_inactivity.py
+
+Monitora todos os dispositivos /dev/input/event*.
+Se não houver evento (controle/teclado/mouse) por mais de THRESHOLD_MINUTES,
+executa os comandos 'Up' e 'Down' de forma alternada e REINICIA o monitoramento.
+
+Requer execução como root (para abrir /dev/input/event*).
+"""
+
+import os
+import sys
+import time
+import glob
+import select
+import subprocess
+import signal
+
+# --- CONFIGURAÇÃO ---
+THRESHOLD_MINUTES = 3 # 0.1667     # 10 segundos de inatividade (0.1667 minutos)
+CHECK_INTERVAL = 1.0           # Intervalo de checagem (segundos)
+UP_KEY_CMD = ["xdotool", "key", "Up"]   # Comando para simular pressionamento da tecla UP
+DOWN_KEY_CMD = ["xdotool", "key", "Down"] # Comando para simular pressionamento da tecla DOWN
+# ---------------------
+
+running = True
+# Variável global para rastrear o comando a ser executado:
+# True = Rodar UP
+# False = Rodar DOWN
+command_toggle = True 
+
+def signal_handler(signum, frame):
+    global running
+    running = False
+
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
+def open_event_devices():
+    fds = {}
+    paths = glob.glob("/dev/input/event*")
+    for p in paths:
+        try:
+            # O buffering=0 é crucial para que a leitura seja instantânea
+            fd = open(p, "rb", buffering=0)
+            fd_fd = fd.fileno()
+            fds[fd_fd] = (fd, p)
+        except PermissionError:
+            print(f"[warn] sem permissão para abrir {p}, rode como root se quiser monitorar esse dispositivo.", file=sys.stderr)
+        except Exception as e:
+            print(f"[warn] falha ao abrir {p}: {e}", file=sys.stderr)
+    return fds
+
+def close_event_devices(fds):
+    for fd, (handle, path) in fds.items():
+        try:
+            handle.close()
+        except:
+            pass
+
+def run_command_once():
+    """Executa os comandos UP ou DOWN de forma alternada."""
+    global command_toggle
+    
+    try:
+        if command_toggle:
+            # Rodar UP
+            cmd = UP_KEY_CMD
+        else:
+            # Rodar DOWN
+            cmd = DOWN_KEY_CMD
+            
+        subprocess.Popen(cmd)
+        print(f"[info] comando alternado executado: {' '.join(cmd)}")
+        
+        # Inverte o estado para a próxima vez
+        command_toggle = not command_toggle
+
+    except Exception as e:
+        print(f"[error] ao executar comando: {e}", file=sys.stderr)
+
+def main():
+    global running
+    threshold_seconds = THRESHOLD_MINUTES * 60  # Converte minutos para segundos
+    last_activity = time.time()
+    
+    fds = open_event_devices()
+    if not fds:
+        print("[warn] nenhum /dev/input/event* aberto. Verifique permissões ou dispositivos.", file=sys.stderr)
+    else:
+        print(f"[info] monitorando dispositivos: {[p for _, p in fds.values()]}")
+
+    last_scan = time.time()
+
+    while running:
+        # Verificar se algum dispositivo foi desconectado ou conectado (a cada 10s)
+        if time.time() - last_scan > 10:
+            close_event_devices(fds)
+            fds = open_event_devices()
+            last_scan = time.time()
+
+        rlist = list(fds.keys())
+        if rlist:
+            # Espera por eventos ou timeout
+            try:
+                # O timeout de select é o CHECK_INTERVAL
+                r, _, _ = select.select(rlist, [], [], CHECK_INTERVAL)
+            except Exception as e:
+                print(f"[warn] select falhou: {e}", file=sys.stderr)
+                time.sleep(CHECK_INTERVAL)
+                continue
+
+            if r:
+                # Leitura de eventos para consumir o buffer e registrar a atividade
+                for fdnum in r:
+                    handle, path = fds.get(fdnum, (None, None))
+                    if handle:
+                        try:
+                            # A leitura limpa o buffer do kernel
+                            _ = os.read(fdnum, 64) 
+                        except BlockingIOError:
+                            pass
+                        except Exception as e:
+                            print(f"[info] erro lendo {path}: {e}", file=sys.stderr)
+                 
+                # Houve atividade, então resetamos o tempo.
+                last_activity = time.time()
+            
+        else:
+             # Não há dispositivos para monitorar, apenas espera
+            time.sleep(CHECK_INTERVAL)
+
+        # Verificando inatividade
+        idle = time.time() - last_activity
+        
+        # Se o tempo de inatividade excedeu o limite
+        if idle >= threshold_seconds:
+            print(f"[info] inatividade detectada por {idle:.0f}s >= {threshold_seconds}s -> executando comandos.")
+            run_command_once()
+             
+            # Reseta o tempo de inatividade para monitorar o próximo ciclo.
+            last_activity = time.time()
+            print(f"[info] Tempo de inatividade resetado. Monitorando novamente...")
+
+        # Garante que o loop não bloqueia caso não haja fds para o select
+        if not rlist:
+            time.sleep(CHECK_INTERVAL)
+
+    close_event_devices(fds)
+    print("[info] encerrando monitor.")
+
+if __name__ == "__main__":
+    main()
