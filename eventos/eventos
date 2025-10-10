@@ -18,7 +18,7 @@ import subprocess
 import signal
 
 # --- CONFIGURAÇÃO ---
-THRESHOLD_MINUTES = 3 # 0.1667     # 10 segundos de inatividade (0.1667 minutos)
+THRESHOLD_MINUTES = 0.1667     # 10 segundos de inatividade (0.1667 minutos)
 CHECK_INTERVAL = 1.0           # Intervalo de checagem (segundos)
 UP_KEY_CMD = ["xdotool", "key", "Up"]   # Comando para simular pressionamento da tecla UP
 DOWN_KEY_CMD = ["xdotool", "key", "Down"] # Comando para simular pressionamento da tecla DOWN
