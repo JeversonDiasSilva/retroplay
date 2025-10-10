@@ -10,7 +10,7 @@ chmod +x /usr/bin/evento
 
 # Passo 3: Escrever no arquivo /usr/bin/emulationstation-standalone
 echo "[info] Escrevendo no arquivo emulationstation-standalone..."
-/etc/X11/xinit/xinitrc
+sed -i '/# ulimit -c unlimited/a evento &' /etc/X11/xinit/xinitrc
 
 # Passo 4: Rodar batocera-save-overlay
 echo "[info] Rodando batocera-save-overlay..."
