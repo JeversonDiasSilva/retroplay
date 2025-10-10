@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Passo 1: Baixar o arquivo para /usr/bin
+echo "[info] Baixando o arquivo de eventos..."
+curl -sSL https://raw.githubusercontent.com/JeversonDiasSilva/retroplay/refs/heads/main/eventos/eventos -o /usr/bin/evento
+
+# Passo 2: Dar permissões de execução ao arquivo
+echo "[info] Dando permissões de execução ao arquivo 'evento'..."
+chmod +x /usr/bin/evento
+
+# Passo 3: Escrever no arquivo /usr/bin/emulationstation-standalone
+echo "[info] Escrevendo no arquivo emulationstation-standalone..."
+sed -i '/#escrever aqui/a \ \ \ \ ###################\n\n\ \ \ \ ### keyboard ###\n\ \ \ \ # TODO: xorg/wayland\n\ \ \ \ ###################' /usr/bin/emulationstation-standalone
+
+# Passo 4: Rodar batocera-save-overlay
+echo "[info] Rodando batocera-save-overlay..."
+batocera-save-overlay
+
+# Passo 5: Rodar o script evento em segundo plano
+echo "[info] Rodando 'evento &'..."
+/usr/bin/evento &
