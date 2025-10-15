@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""
+monitor_input_inactivity.py
+
+Monitora todos os dispositivos /dev/input/event*.
+Se não houver evento (controle/teclado/mouse) por mais de THRESHOLD_MINUTES,
+executa os comandos 'Up' e 'Down' de forma alternada, executa o script
+restart-coin.sh e limpa o cache da memória do sistema.
+
+Requer execução como root (para acessar /dev/input/event* e limpar cache).
+"""
+
+import os
+import sys
+import time
+import glob
+import select
+import subprocess
+import signal
+
+# --- CONFIGURAÇÃO ---
+THRESHOLD_MINUTES = 3             # Tempo de inatividade (minutos)
+CHECK_INTERVAL = 1.0              # Intervalo de checagem (segundos)
+UP_KEY_CMD = ["xdotool", "key", "Up"]
+DOWN_KEY_CMD = ["xdotool", "key", "Down"]
+RESTART_SCRIPT = "/usr/share/retroluxxo/scripts/restart-coin.sh"
+# ---------------------
+
+running = True
+command_toggle = True  # Alterna entre UP e DOWN
+
+def signal_handler(signum, frame):
+    global running
+    running = False
+
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
+def open_event_devices():
+    fds = {}
+    paths = glob.glob("/dev/input/event*")
+    for p in paths:
+        try:
+            fd = open(p, "rb", buffering=0)
+            fds[fd.fileno()] = (fd, p)
+        except PermissionError:
+            print(f"[warn] sem permissão para abrir {p}. Rode como root.", file=sys.stderr)
+        except Exception as e:
+            print(f"[warn] erro ao abrir {p}: {e}", file=sys.stderr)
+    return fds
+
+def close_event_devices(fds):
+    for _, (handle, _) in fds.items():
+        try:
+            handle.close()
+        except:
+            pass
+
+def limpar_cache_memoria():
+    """Executa limpeza de cache de memória via drop_caches."""
+    try:
+        subprocess.run(["sync"])
+        with open("/proc/sys/vm/drop_caches", "w") as f:
+            f.write("3\n")
+        print("[info] Cache de memória limpo com sucesso.")
+    except Exception as e:
+        print(f"[error] Falha ao limpar cache: {e}", file=sys.stderr)
+
+def run_command_once():
+    """Executa UP/DOWN, script externo e limpa cache."""
+    global command_toggle
+
+    try:
+        cmd = UP_KEY_CMD if command_toggle else DOWN_KEY_CMD
+
+        subprocess.Popen(cmd)
+        print(f"[info] comando xdotool executado: {' '.join(cmd)}")
+
+        subprocess.Popen(["bash", RESTART_SCRIPT])
+        print(f"[info] script de reinício executado: {RESTART_SCRIPT}")
+
+        limpar_cache_memoria()
+
+        command_toggle = not command_toggle
+
+    except Exception as e:
+        print(f"[error] ao executar comandos: {e}", file=sys.stderr)
+
+def main():
+    global running
+    threshold_seconds = THRESHOLD_MINUTES * 60
+    last_activity = time.time()
+    
+    fds = open_event_devices()
+    if not fds:
+        print("[warn] Nenhum dispositivo /dev/input/event* disponível.", file=sys.stderr)
+    else:
+        print(f"[info] Monitorando dispositivos: {[p for _, p in fds.values()]}")
+
+    last_scan = time.time()
+
+    while running:
+        if time.time() - last_scan > 10:
+            close_event_devices(fds)
+            fds = open_event_devices()
+            last_scan = time.time()
+
+        rlist = list(fds.keys())
+
+        if rlist:
+            try:
+                r, _, _ = select.select(rlist, [], [], CHECK_INTERVAL)
+            except Exception as e:
+                print(f"[warn] select falhou: {e}", file=sys.stderr)
+                time.sleep(CHECK_INTERVAL)
+                continue
+
+            if r:
+                for fdnum in r:
+                    handle, path = fds.get(fdnum, (None, None))
+                    if handle:
+                        try:
+                            _ = os.read(fdnum, 64)
+                        except BlockingIOError:
+                            pass
+                        except Exception as e:
+                            print(f"[info] erro lendo {path}: {e}", file=sys.stderr)
+
+                last_activity = time.time()
+
+        else:
+            time.sleep(CHECK_INTERVAL)
+
+        idle = time.time() - last_activity
+        if idle >= threshold_seconds:
+            print(f"[info] Inatividade detectada por {idle:.0f}s >= {threshold_seconds}s. Executando comandos.")
+            run_command_once()
+            last_activity = time.time()
+            print(f"[info] Tempo de inatividade resetado. Monitorando novamente...")
+
+        if not rlist:
+            time.sleep(CHECK_INTERVAL)
+
+    close_event_devices(fds)
+    print("[info] Encerrando monitor.")
+
+if __name__ == "__main__":
+    main()
