@@ -16,19 +16,20 @@ fi
 # Passo 3: Escrever no arquivo /etc/X11/xinit/xinitrc
 echo "[info] Escrevendo no arquivo /etc/X11/xinit/xinitrc..."
 sed -i '/# ulimit -c unlimited/a evento &' /etc/X11/xinit/xinitrc
+# sed -i '/# ulimit -c unlimited/a auto &' /etc/X11/xinit/xinitrc
 
 # Passo 4: Rodar batocera-save-overlay
-echo "[info] Rodando batocera-save-overlay..."
-batocera-save-overlay
+# echo "[info] Rodando batocera-save-overlay..."
+# batocera-save-overlay
 
 # Passo 5: Rodar o script evento em segundo plano
-echo "[info] Rodando 'evento &'..."
-if [ -z "$DISPLAY" ]; then
-    startx
-else
-    echo "[warning] X já está em execução."
-fi
+# echo "[info] Rodando 'evento &'..."
+# if [ -z "$DISPLAY" ]; then
+#     startx
+# else
+#     echo "[warning] X já está em execução."
+# fi
 
 # Passo 6: Finalizar o pcmanfm, se necessário
-echo "[info] Finalizando o processo pcmanfm..."
-killall -9 pcmanfm || echo "[warning] Não foi possível finalizar o processo pcmanfm."
+#echo "[info] Finalizando o processo pcmanfm..."
+# killall -9 pcmanfm || echo "[warning] Não foi possível finalizar o processo pcmanfm."
